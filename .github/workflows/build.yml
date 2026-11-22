@@ -23,7 +23,21 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 9.0.x
-
+      - name: Install .NET Framework 4.5.2 Developer Pack
+        shell: pwsh
+        run: |
+          $url = "https://go.microsoft.com/fwlink/?linkid=328851"
+          $installer = "$env:TEMP\NDP452-DevPack.exe"
+      
+          Invoke-WebRequest -Uri $url -OutFile $installer
+      
+          Start-Process -FilePath $installer `
+            -ArgumentList "/quiet", "/norestart" `
+            -Wait
+      
+          if (!(Test-Path "C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2")) {
+            throw ".NET Framework 4.5.2 targeting pack was not installed"
+          }
       - name: Restore dependencies
         run: dotnet restore ConfuserExCustomModuleConstUnpacker/ConfuserExCustomModuleConstUnpacker.sln
 
