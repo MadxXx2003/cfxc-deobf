@@ -24,21 +24,27 @@ jobs:
         with:
           dotnet-version: 9.0.x
 
-      - name: Install .NET Framework 4.5.2 Developer Pack
+      - name: Install .NET Framework 4.5.2 Targeting Pack
         shell: pwsh
         run: |
           $url = "https://go.microsoft.com/fwlink/?linkid=328851"
           $installer = "$env:TEMP\NDP452-DevPack.exe"
       
-          Invoke-WebRequest -Uri $url -OutFile $installer
+          Invoke-WebRequest $url -OutFile $installer
       
-          Start-Process -FilePath $installer `
-            -ArgumentList "/quiet", "/norestart" `
-            -Wait
+          $process = Start-Process $installer `
+            -ArgumentList "/q", "/norestart" `
+            -Wait -PassThru
       
-          if (!(Test-Path "C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2")) {
-            throw ".NET Framework 4.5.2 targeting pack was not installed"
+          Write-Host "Installer exit code: $($process.ExitCode)"
+      
+          $referencePath = "${env:ProgramFiles(x86)}\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2"
+      
+          if (!(Test-Path $referencePath)) {
+            throw "The .NET Framework 4.5.2 targeting pack is still missing."
           }
+      
+          Write-Host "Targeting pack installed successfully."
 
       - name: Restore dependencies
         run: dotnet restore ConfuserExCustomModuleConstUnpacker/ConfuserExCustomModuleConstUnpacker.sln
