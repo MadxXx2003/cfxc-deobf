@@ -23,6 +23,7 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 9.0.x
+
       - name: Install .NET Framework 4.5.2 Developer Pack
         shell: pwsh
         run: |
@@ -38,6 +39,7 @@ jobs:
           if (!(Test-Path "C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2")) {
             throw ".NET Framework 4.5.2 targeting pack was not installed"
           }
+
       - name: Restore dependencies
         run: dotnet restore ConfuserExCustomModuleConstUnpacker/ConfuserExCustomModuleConstUnpacker.sln
 
