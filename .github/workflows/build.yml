@@ -25,7 +25,8 @@ jobs:
           dotnet-version: 9.0.x
 
       - name: Restore dependencies
-        run: dotnet restore UnConfuserEx.sln
+        run: dotnet restore ConfuserExCustomModuleConstUnpacker
+/ConfuserExCustomModuleConstUnpacker.sln
 
       - name: Build Release
         run: dotnet build UnConfuserEx.sln -c Release --no-restore
