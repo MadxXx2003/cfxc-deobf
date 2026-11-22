@@ -28,7 +28,7 @@ jobs:
         run: dotnet restore ConfuserExCustomModuleConstUnpacker/ConfuserExCustomModuleConstUnpacker.sln
 
       - name: Build Release
-        run: dotnet build ConfuserExCustomModuleConstUnpacker.sln -c Release --no-restore
+        run: dotnet build ConfuserExCustomModuleConstUnpacker/ConfuserExCustomModuleConstUnpacker.sln -c Release --no-restore
 
       - name: Upload executable
         uses: actions/upload-artifact@v4
